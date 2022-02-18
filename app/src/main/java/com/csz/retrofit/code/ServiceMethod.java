@@ -71,12 +71,12 @@ public class ServiceMethod {
                 if (parameterAnnotations == null) {
                     throw new IllegalArgumentException("No Retrofit annotation found.");
                 }
-                parameterHandlers[p] = parseParameter(p, parameterAnnotations);
+                parameterHandlers[p] = parseParameter(parameterAnnotations);
             }
             return new ServiceMethod(this);
         }
 
-        private ParameterHandler parseParameter(int p, Annotation[] annotations) {
+        private ParameterHandler parseParameter(Annotation[] annotations) {
             ParameterHandler result = null;
             for (Annotation annotation : annotations) {
                 ParameterHandler annotationAction = parseParameterAnnotation(annotation);
@@ -103,7 +103,7 @@ public class ServiceMethod {
                 handler = new ParameterHandler.Query(value);
             } else if (annotation instanceof Field) {
                 String value = ((Field) annotation).value();
-                handler = new ParameterHandler.Query(value);
+                handler = new ParameterHandler.Field(value);
             }
             return handler;
         }
